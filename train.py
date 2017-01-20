@@ -1,5 +1,4 @@
 from __future__ import print_function
-import numpy as np
 import tensorflow as tf
 
 import argparse
@@ -9,6 +8,7 @@ from six.moves import cPickle
 
 from utils import TextLoader
 from model import Model
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -46,6 +46,7 @@ def main():
                         """)
     args = parser.parse_args()
     train(args)
+
 
 def train(args):
     data_loader = TextLoader(args.data_dir, args.batch_size, args.seq_length)
@@ -109,6 +110,7 @@ def train(args):
                     checkpoint_path = os.path.join(args.save_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step = e * data_loader.num_batches + b)
                     print("model saved to {}".format(checkpoint_path))
+
 
 if __name__ == '__main__':
     main()

@@ -10,9 +10,20 @@ datasets:
           rnn_size: 256
           num_layers: 3
           num_epochs: 500
+          save_every: 500
         source:
           type: zipfile
           url: https://dl.dropboxusercontent.com/s/4rz8kblztlv0zbv/pillowbook-ru-model-3-256.zip
+  - name: klim-ru
+    sources:
+      - type: zipfile
+        url: https://dl.dropboxusercontent.com/s/alct8is4cnl9y6h/klim-ru.zip
+    models:
+      - name: klim-ru-3-512
+        params:
+          rnn_size: 512
+          num_layers: 3
+          save_every: 200
   - name: constitution-ukraine-ua
     sources:
       - type: zipfile

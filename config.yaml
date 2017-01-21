@@ -1,0 +1,34 @@
+datasets:
+  - name: tinyshakespeare
+  - name: pillowbook-ru
+    sources:
+      - type: zipfile
+        url: https://dl.dropboxusercontent.com/s/a0ruo3e2cdoh1dr/pillowbook-ru.zip
+    models:
+      - name: pillowbook-ru-3-256
+        params:
+          rnn_size: 256
+          num_layers: 3
+          num_epochs: 500
+        source:
+          type: zipfile
+          url: https://dl.dropboxusercontent.com/s/4rz8kblztlv0zbv/pillowbook-ru-model-3-256.zip
+  - name: constitution-ukraine-ua
+    sources:
+      - type: zipfile
+        url: https://dl.dropboxusercontent.com/s/qhqxdf9camcz3c6/constitution-ukraine-ua.zip
+    models:
+      - name: constitution-ukraine-ua
+  - name: aeneid-kotliarevsky-ua
+    sources:
+      - type: zipfile
+        url: https://dl.dropboxusercontent.com/s/ssk0nm1gn20urqq/aeneid-kotliarevsky-ua.zip
+    models:
+      - name: aeneid-kotliarevsky-ua
+  - name: tax-codex-ukraine-ua
+    sources:
+      - type: zipfile
+        url: https://dl.dropboxusercontent.com/s/4egkoglgox8v6jj/tax-codex-ukraine-ua.zip
+dirs:
+  data: ./data
+  models: ./save

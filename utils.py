@@ -4,6 +4,12 @@ import collections
 from six.moves import cPickle
 import numpy as np
 
+
+class StructFromArgs:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+
 class TextLoader():
     def __init__(self, data_dir, batch_size, seq_length, encoding='utf-8'):
         self.data_dir = data_dir

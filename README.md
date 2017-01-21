@@ -6,10 +6,52 @@ Inspired from Andrej Karpathy's [char-rnn](https://github.com/karpathy/char-rnn)
 # Requirements
 - [Tensorflow 1.0](http://www.tensorflow.org)
 
-# Basic Usage
-To train with default parameters on the tinyshakespeare corpus, run `python train.py`.
+# Usage
 
-To sample from a checkpointed model, `python sample.py`.
+## Setup datasets and models
+ 
+To download all datasets and pretrained models described in `config.yaml` use
+
+```sh
+./main --datasets-all
+```
+
+To setup specific datasets
+ 
+```sh
+./main --datasets <dataset name> [<dataset name>...]
+```
+
+## Train models
+
+To train default model for dataset
+
+```sh
+./main --train dataset
+```
+
+For specific model
+
+```sh
+./main --train <dataset name> --model <model name> 
+```
+
+Both `dataset name` and `model name` should be specified in `config.yaml`.  
+
+## Print samples
+
+To sample from a checkpointed model
+
+```sh
+./main.py --sample <dataset name> --model <model name>
+```
+
+Or simply omit model name for default model
+
+```sh
+./main.py --sample <dataset name>
+```
+
 # Roadmap
 - Add explanatory comments
 - Expose more command-line arguments

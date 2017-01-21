@@ -6,7 +6,7 @@ import time
 import os
 from six.moves import cPickle
 
-from utils import TextLoader
+from utils import StructFromArgs, TextLoader
 from model import Model
 
 
@@ -45,10 +45,26 @@ def main():
                             'model.ckpt-*'      : file(s) with model definition (created by tf)
                         """)
     args = parser.parse_args()
-    train(args)
+    train(**vars(args))
 
 
-def train(args):
+def train(data_dir='data/tinyshakespeare', save_dir='save', rnn_size=128,
+          num_layers=2, model='lstm', batch_size=50, seq_length=50,
+          num_epochs=50, save_every=1000, grad_clip=5., learning_rate=0.002,
+          decay_rate=0.97, init_from=None):
+    args = StructFromArgs(data_dir=data_dir, save_dir=save_dir, rnn_size=rnn_size,
+                          num_layers=num_layers, model=model, batch_size=batch_size, seq_length=seq_length,
+                          num_epochs=num_epochs, save_every=save_every, grad_clip=grad_clip, learning_rate=learning_rate,
+                          decay_rate=decay_rate, init_from=init_from)
+    return __train(args)
+
+
+def __train(args):
+    """
+    Legacy solution which is close coupled to command line interface.
+    :param args: argparse args object
+    :return:
+    """
     data_loader = TextLoader(args.data_dir, args.batch_size, args.seq_length)
     args.vocab_size = data_loader.vocab_size
     

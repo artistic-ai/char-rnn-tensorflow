@@ -19,9 +19,10 @@ def __set_config_defaults(config):
     return config
 
 
-CONFIG = __set_config_defaults(
-    yaml.load(file('config.yaml', 'r'))
-)
+with open('config.yaml') as config_file:
+    CONFIG = __set_config_defaults(
+        yaml.load(config_file.read())
+    )
 
 
 def prepare_dir(path):

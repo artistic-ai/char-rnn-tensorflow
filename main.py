@@ -137,7 +137,6 @@ def model_path(dataset, model=None):
 
 
 def main():
-    CONFIG = yaml.load(file('config.yaml', 'r'))
     dataset_names = [d['name'] for d in CONFIG['datasets']]
 
     parser = argparse.ArgumentParser(description='Download dataset for RNN Tensorflow.')

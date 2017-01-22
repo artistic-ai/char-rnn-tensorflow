@@ -24,6 +24,9 @@ datasets:
           rnn_size: 512
           num_layers: 3
           save_every: 200
+        source:
+          type: zipfile
+          url: https://dl.dropboxusercontent.com/s/w0mwjhvsr8bnk67/klim-ru-model-3-512.zip
   - name: constitution-ukraine-ua
     sources:
       - type: zipfile

@@ -1,5 +1,6 @@
 datasets:
   - name: tinyshakespeare
+
   - name: pillowbook-ru
     sources:
       - type: zipfile
@@ -14,6 +15,7 @@ datasets:
         source:
           type: zipfile
           url: https://dl.dropboxusercontent.com/s/4rz8kblztlv0zbv/pillowbook-ru-model-3-256.zip
+
   - name: klim-ru
     sources:
       - type: zipfile
@@ -27,22 +29,37 @@ datasets:
         source:
           type: zipfile
           url: https://dl.dropboxusercontent.com/s/w0mwjhvsr8bnk67/klim-ru-model-3-512.zip
+
+  - name: mcdonagh-ru
+    sources:
+      - type: zipfile
+        url: https://dl.dropboxusercontent.com/s/88fohcw5m6zhepe/mcdonagh-ru.zip
+    models:
+      - name: mcdonagh-ru-3-512
+        params:
+          rnn_size: 512
+          num_layers: 3
+          save_every: 200
+
   - name: constitution-ukraine-ua
     sources:
       - type: zipfile
         url: https://dl.dropboxusercontent.com/s/qhqxdf9camcz3c6/constitution-ukraine-ua.zip
     models:
       - name: constitution-ukraine-ua
+
   - name: aeneid-kotliarevsky-ua
     sources:
       - type: zipfile
         url: https://dl.dropboxusercontent.com/s/ssk0nm1gn20urqq/aeneid-kotliarevsky-ua.zip
     models:
       - name: aeneid-kotliarevsky-ua
+
   - name: tax-codex-ukraine-ua
     sources:
       - type: zipfile
         url: https://dl.dropboxusercontent.com/s/4egkoglgox8v6jj/tax-codex-ukraine-ua.zip
+
 dirs:
   data: ./data
   models: ./save

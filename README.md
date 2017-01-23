@@ -5,6 +5,11 @@ Inspired from Andrej Karpathy's [char-rnn](https://github.com/karpathy/char-rnn)
 
 # Requirements
 - [Tensorflow 1.0](http://www.tensorflow.org)
+- [PyYaml](http://pyyaml.org)
+
+```sh
+pip install -r requirements.txt
+```
 
 # Usage
 

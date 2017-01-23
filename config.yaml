@@ -18,7 +18,6 @@ datasets:
     sources:
       - type: zipfile
         url: https://dl.dropboxusercontent.com/s/alct8is4cnl9y6h/klim-ru.zip
-        https://dl.dropboxusercontent.com/s/fmif7glx8d8ri9o/animals-xsmall.zip
     models:
       - name: klim-ru-3-512
         params:

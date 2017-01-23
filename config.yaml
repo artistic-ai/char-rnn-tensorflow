@@ -48,12 +48,16 @@ datasets:
     models:
       - name: constitution-ukraine-ua
 
-  - name: aeneid-kotliarevsky-ua
+  - name: aeneid-mixed-ua
     sources:
       - type: zipfile
-        url: https://dl.dropboxusercontent.com/s/ssk0nm1gn20urqq/aeneid-kotliarevsky-ua.zip
+        url: https://dl.dropboxusercontent.com/s/gtnsawv88hy55tx/aeneid-mixed-ua.zip
     models:
-      - name: aeneid-kotliarevsky-ua
+      - name: aeneid-mixed-ua
+        params:
+          rnn_size: 512
+          num_layers: 3
+          save_every: 200
 
   - name: tax-codex-ukraine-ua
     sources:

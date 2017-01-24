@@ -10,7 +10,7 @@ datasets:
         params:
           rnn_size: 256
           num_layers: 3
-          num_epochs: 2500
+          num_epochs: 1500
           save_every: 500
       - name: pillowbook-ru-3-256
         params:
@@ -45,6 +45,7 @@ datasets:
         params:
           rnn_size: 512
           num_layers: 3
+          num_epochs: 100
           save_every: 200
         source:
           type: zipfile

@@ -46,7 +46,7 @@ datasets:
           rnn_size: 512
           num_layers: 3
           num_epochs: 100
-          save_every: 200
+          save_every: 500
         source:
           type: zipfile
           url: https://dl.dropboxusercontent.com/s/eflqros14y9gb1o/mcdonagh-ru-3-512.zip
@@ -103,7 +103,7 @@ datasets:
         params:
           rnn_size: 512
           num_layers: 3
-          save_every: 200
+          save_every: 500
 
   - name: tax-codex-ukraine-ua
     sources:

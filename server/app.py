@@ -2,7 +2,6 @@ import aiohttp_jinja2
 import jinja2
 from aiohttp import web
 import os
-import sockjs
 
 from config import load_config, PROJECT_ROOT
 from server.background_tasks import start_background_tasks, cleanup_background_tasks

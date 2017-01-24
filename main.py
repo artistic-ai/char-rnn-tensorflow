@@ -3,9 +3,10 @@
 from __future__ import print_function
 
 import argparse
-import urllib
 import os
 import zipfile
+
+from six.moves import urllib
 
 from config import load_config
 from sample import sample
@@ -22,7 +23,7 @@ def prepare_dir(path):
 
 def download_from_url(url, dest):
     print('Downloading %s to %s...' % (url, dest))
-    urllib.urlretrieve(url, dest)
+    urllib.request.urlretrieve(url, dest)
 
 
 def unzip_file(src, dest):

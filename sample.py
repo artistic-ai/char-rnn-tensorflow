@@ -17,8 +17,6 @@ def main():
                         help='model directory to store checkpointed models')
     parser.add_argument('-n', type=int, default=2000,
                         help='number of characters to sample')
-    parser.add_argument('-n', type=int, default=500,
-                       help='number of characters to sample')
     parser.add_argument('--prime', type=text_type, default=u' ',
                         help='prime text')
     parser.add_argument('--sample', type=int, default=1,
@@ -28,29 +26,34 @@ def main():
     print(sample(**vars(args)))
 
 
-def sample(save_dir='save', n=2000, prime=u' ', sample_type=1):
-    args = StructFromArgs(save_dir=save_dir, n=n, prime=prime, sample=sample_type)
-    return __sample(args)
-
-
-def __sample(args):
-    """
-    Legacy solution which is close coupled to command line interface.
-    :param args: argparse args object
-    :return:
-    """
-    with open(os.path.join(args.save_dir, 'config.pkl'), 'rb') as f:
+def load_model(save_dir='save'):
+    with open(os.path.join(save_dir, 'config.pkl'), 'rb') as f:
         saved_args = cPickle.load(f)
-    with open(os.path.join(args.save_dir, 'chars_vocab.pkl'), 'rb') as f:
-        chars, vocab = cPickle.load(f)
     model = Model(saved_args, True)
-    with tf.Session() as sess:
-        tf.global_variables_initializer().run()
-        saver = tf.train.Saver(tf.global_variables())
-        ckpt = tf.train.get_checkpoint_state(args.save_dir)
-        if ckpt and ckpt.model_checkpoint_path:
-            saver.restore(sess, ckpt.model_checkpoint_path)
-            return model.sample(sess, chars, vocab, args.n, args.prime, args.sample)
+    with open(os.path.join(save_dir, 'chars_vocab.pkl'), 'rb') as f:
+        chars, vocab = cPickle.load(f)
+    return {'model': model, 'chars': chars, 'vocab': vocab}
+
+
+def restore_session(save_dir='save'):
+    sess = tf.Session()
+    tf.global_variables_initializer().run()
+    saver = tf.train.Saver(tf.global_variables())
+    ckpt = tf.train.get_checkpoint_state(save_dir)
+    if ckpt and ckpt.model_checkpoint_path:
+        saver.restore(sess, ckpt.model_checkpoint_path)
+        return sess
+
+
+def get_sample(model, sess, n=2000, prime=u' ', sample_type=1):
+    return model['model'].sample(sess, model['chars'], model['vocab'], n, prime, sample_type)
+
+
+def sample(save_dir='save', n=2000, prime=u' ', sample_type=1):
+    model = load_model(save_dir)
+    sess = restore_session(save_dir)
+    with sess:
+        return get_sample(model, sess, n, prime, sample_type)
 
 
 if __name__ == '__main__':

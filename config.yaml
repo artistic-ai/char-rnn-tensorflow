@@ -67,3 +67,9 @@ datasets:
 dirs:
   data: ./data
   models: ./save
+
+server:
+  reload_model: 300
+  reload_text: 30
+  dataset: klim-ru
+  model: klim-ru-3-512

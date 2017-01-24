@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+<h1>{{ title }}</h1>
+{% for sample in samples %}
+<h2>{{ sample.index + 1 }}</h2>
+<div>
+    <pre>{{ sample.text }}</pre>
+</div>
+{% endfor %}
+</body>
+</html>

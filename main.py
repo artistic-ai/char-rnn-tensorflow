@@ -5,29 +5,19 @@ from __future__ import print_function
 import argparse
 import urllib
 import os
-import yaml
 import zipfile
 
+from config import load_config
 from sample import sample
 from train import train
 
 
-def __set_config_defaults(config):
-    for d in config.get('datasets', []):
-        if 'models' not in d:
-            d['models'] = [{'name': d['name']}]
-    return config
-
-
-with open('config.yaml') as config_file:
-    CONFIG = __set_config_defaults(
-        yaml.load(config_file.read())
-    )
+CONFIG = load_config()
 
 
 def prepare_dir(path):
     if not os.path.exists(path):
-        os.mkdir(path)
+        os.makedirs(path)
 
 
 def download_from_url(url, dest):
@@ -58,7 +48,7 @@ def download(datasets):
 
     for dataset in CONFIG['datasets']:
         if dataset['name'] in datasets:
-            dataset_dir = dataset_path(dataset)
+            dataset_dir = dataset['path']
             # Skip dataset loading if dataset directory exists
             if os.path.exists(dataset_dir):
                 print('Skipping dataset %s since directory already exists'
@@ -71,9 +61,8 @@ def download(datasets):
 
             # Load pre-trained models
             if 'models' in dataset:
-                prepare_dir(model_path(dataset))
                 for model in dataset['models']:
-                    model_dir = model_path(dataset, model)
+                    model_dir = model['path']
                     if os.path.exists(model_dir):
                         print('Skipping model %s of %s since directory already exists'
                               % (model['name'], dataset['name']))
@@ -87,8 +76,8 @@ def download(datasets):
 
 def train_model(dataset, model):
     params = {
-        'data_dir': dataset_path(dataset),
-        'save_dir': model_path(dataset, model)
+        'data_dir': dataset['path'],
+        'save_dir': model['path']
     }
     # Initialise from pretrained model if exists
     if 'source' in model and os.path.exists(params['save_dir']):
@@ -104,7 +93,7 @@ def train_model(dataset, model):
 
 def get_sample(dataset, model):
     params = {
-        'save_dir': model_path(dataset, model)
+        'save_dir': model['path']
     }
 
     # Get sample
@@ -123,17 +112,6 @@ def __get_dataset_and_model(args, dataset_name):
         model = dataset.get('models', [{'name': dataset_name}])[0]
 
     return dataset, model
-
-
-def dataset_path(dataset):
-    return os.path.join(CONFIG['dirs']['data'], dataset['name'])
-
-
-def model_path(dataset, model=None):
-    params = [CONFIG['dirs']['models'], dataset['name']]
-    if model is not None:
-        params.append(model['name'])
-    return os.path.join(*params)
 
 
 def main():

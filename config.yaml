@@ -40,6 +40,9 @@ datasets:
           rnn_size: 512
           num_layers: 3
           save_every: 200
+        source:
+          type: zipfile
+          url: https://dl.dropboxusercontent.com/s/eflqros14y9gb1o/mcdonagh-ru-3-512.zip
 
   - name: constitution-ukraine-ua
     sources:
@@ -71,5 +74,5 @@ dirs:
 server:
   reload_model: 300
   reload_text: 30
-  dataset: klim-ru
-  model: klim-ru-3-512
+  dataset: mcdonagh-ru
+  model: mcdonagh-ru-3-512

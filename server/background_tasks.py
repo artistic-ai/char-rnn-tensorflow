@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 from sample import load_model, restore_session, get_sample
 
@@ -41,6 +42,9 @@ async def text_generator(app):
             }
             # Add new item
             app['text_generations'].append(new_item)
+            # Save to generations file
+            with open(app['samples_path'], 'w') as outfile:
+                json.dump(app['text_generations'], outfile)
             # Wait for next run
             await asyncio.sleep(app['reload_text'])
     except asyncio.CancelledError:

@@ -139,6 +139,7 @@ datasets:
 dirs:
   data: ./data
   models: ./save
+  samples: ./server/data
 
 server:
   reload_model: 300

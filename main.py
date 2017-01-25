@@ -116,7 +116,7 @@ def __get_dataset_and_model(args, dataset_name):
 
 
 def main():
-    dataset_names = [d['name'] for d in CONFIG['datasets']]
+    dataset_names = CONFIG['dataset_names']
 
     parser = argparse.ArgumentParser(description='Download dataset for RNN Tensorflow.')
     parser.add_argument('--datasets', metavar='N', type=str, nargs='+',

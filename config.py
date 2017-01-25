@@ -47,4 +47,8 @@ def __set_config_defaults(config):
             if 'path' not in m:
                 m['path'] = __model_path(d, m, config)
 
+    # Create lists of models and dataset names
+    config['dataset_names'] = [d['name'] for d in config['datasets']]
+    config['model_names'] = [m['name'] for d in config['datasets'] for m in d['models']]
+
     return config

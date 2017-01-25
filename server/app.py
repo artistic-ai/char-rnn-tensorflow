@@ -21,7 +21,7 @@ async def samples_handler(request):
     else:
         sample_index = int(sample_index)
 
-    if sample_index >= len(generations) or sample_index not in generations:
+    if sample_index >= len(generations) or sample_index < -len(generations):
         raise web.HTTPNotFound()
 
     return web.json_response(generations[sample_index])

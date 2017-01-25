@@ -143,5 +143,5 @@ dirs:
 server:
   reload_model: 300
   reload_text: 30
-  dataset: aeneid-mixed-ua
-  model: aeneid-mixed-ua-3-512
+  dataset: mcdonagh-ru
+  model: mcdonagh-ru-3-512

@@ -143,7 +143,7 @@ dirs:
 
 server:
   reload_model: 300
-  reload_text: 5
+  reload_text: 60
   port: 8080
   dataset: mcdonagh-ru
   model: mcdonagh-ru-3-512
@@ -153,5 +153,5 @@ server:
     - pillowbook-ru/pillowbook-ru-3-512
     - brodsky-ru/brodsky-ru-3-512
     - kafka-ru/kafka-ru-3-512
-    - aeneid-mixed-ru/aeneid-mixed-ru-3-512
+    - aeneid-mixed-ua/aeneid-mixed-ua-3-512
     - mcdonagh-ru/mcdonagh-ru-3-512

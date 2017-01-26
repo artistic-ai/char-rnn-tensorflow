@@ -19,7 +19,7 @@ def get_args(config):
 
     parser = argparse.ArgumentParser(description='Manage and serve multiple samples.')
     parser.add_argument('--models', metavar='N', type=str, nargs='+',
-                        choices=model_urls, default=[],
+                        choices=model_urls, default=config['server']['model_urls'],
                         help='name of dataset to download [%s]' % ', '.join(model_urls))
     parser.add_argument('--port', type=int, default=config['server']['port'],
                         help='port to bind to')

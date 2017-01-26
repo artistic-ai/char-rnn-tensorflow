@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+</head>
+<body>
+<h1>{{ title }}</h1>
+<div id="samples-container">
+    {% for sample in samples %}
+        <div id="sample-{{ sample.index }}">
+            <h2>{{ sample.index + 1 }}</h2>
+            <div>
+                <pre>{{ sample.text }}</pre>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        setInterval(function() {
+            $.getJSON( "{{ samples_url }}", function( data ) {
+                $.each( data, function( key, val ) {
+                    if ($('#sample-' + val.index).length == 0) {
+                        content = "<div id='sample-" + val.index + "'><h2>" + (val.index + 1) + "</h2><div><pre>" + val.text + "</pre></div></div>";
+
+                        if ( '{{ samples_order }}' == 'descend' ) {
+                            $("#samples-container").prepend(content);
+                        } else {
+                            $("#samples-container").append(content);
+                        }
+                    }
+                });
+            });
+        }, {{ reload_text }} * 1000 )
+    })
+</script>
+</html>

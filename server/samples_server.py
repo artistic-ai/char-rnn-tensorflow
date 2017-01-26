@@ -8,7 +8,7 @@ import json
 import os
 
 from config import load_config, PROJECT_ROOT
-from server.background_tasks import start_background_tasks, cleanup_background_tasks
+from server.samples_tasks import start_background_tasks, cleanup_background_tasks
 
 
 SERVER_ROOT = os.path.dirname(__file__)
@@ -31,11 +31,18 @@ async def samples_handler(request):
     return web.json_response(generations[sample_index])
 
 
-@aiohttp_jinja2.template('index.html')
+@aiohttp_jinja2.template('samples_index.html')
 async def index_handler(request):
+    samples = request.app['text_generations']
+    if request.app['samples_order'] == 'reversed':
+        samples = reversed(samples)
+
     return {
-        'samples': reversed(request.app['text_generations']),
-        'title': request.app['title']
+        'samples': samples,
+        'title': request.app['title'],
+        'reload_text': request.app['reload_text'],
+        'samples_url': request.app.router['samples'].url_for(),
+        'samples_order': request.app['samples_order']
     }
 
 
@@ -43,7 +50,7 @@ def get_args(config):
     dataset_names = config['dataset_names']
     model_names = config['model_names']
 
-    parser = argparse.ArgumentParser(description='Download dataset for RNN Tensorflow.')
+    parser = argparse.ArgumentParser(description='Generate and serve samples for selected model.')
     parser.add_argument('--dataset', type=str,
                         choices=dataset_names, default=config['server']['dataset'],
                         help='name of dataset to use [%s]' % ', '.join(dataset_names))
@@ -54,6 +61,8 @@ def get_args(config):
                         help='timeout for model reload')
     parser.add_argument('--reload_text', type=int, default=config['server']['reload_text'],
                         help='timeout for text reload')
+    parser.add_argument('--port', type=int, default=config['server']['port'],
+                        help='port to bind to')
     parser.add_argument('--clean', default=False, action='store_true',
                         help='clean previous generations')
 
@@ -72,6 +81,7 @@ def main():
     app['model_dir'] = os.path.join(PROJECT_ROOT, config['models'][dataset_name][model_name]['path'])
     app['reload_model'] = args.reload_model
     app['reload_text'] = args.reload_text
+    app['samples_order'] = config['server']['samples_order']
     app['samples_path'] = os.path.join(PROJECT_ROOT, config['dirs']['samples'],
                                        '{d}_{m}.json'.format(
                                            d=dataset_name,
@@ -96,7 +106,7 @@ def main():
     app.on_startup.append(start_background_tasks)
     app.on_cleanup.append(cleanup_background_tasks)
 
-    web.run_app(app)
+    web.run_app(app, port=args.port)
 
 
 if __name__ == '__main__':

@@ -50,5 +50,6 @@ def __set_config_defaults(config):
     # Create lists of models and dataset names
     config['dataset_names'] = [d['name'] for d in config['datasets']]
     config['model_names'] = [m['name'] for d in config['datasets'] for m in d['models']]
+    config['model_urls'] = ['%s/%s' % (d['name'], m['name']) for d in config['datasets'] for m in d['models']]
 
     return config

@@ -142,8 +142,8 @@ dirs:
   samples: ./server/data
 
 server:
-  reload_model: 600
-  reload_text: 180
+  reload_model: 1800
+  reload_text: 600
   port: 8080
   dataset: mcdonagh-ru
   model: mcdonagh-ru-3-512

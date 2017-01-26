@@ -77,7 +77,7 @@ datasets:
           save_every: 500
         source:
           type: zipfile
-          url: https://dl.dropboxusercontent.com/s/swznzugr3mfx5il/brodsky-ru-3-512.zip
+          url: https://dl.dropboxusercontent.com/s/nww0bam5ng4y7zr/brodsky-ru-3-512.zip
 
   - name: kafka-ru
     sources:
@@ -142,8 +142,8 @@ dirs:
   samples: ./server/data
 
 server:
-  reload_model: 300
-  reload_text: 60
+  reload_model: 600
+  reload_text: 180
   port: 8080
   dataset: mcdonagh-ru
   model: mcdonagh-ru-3-512

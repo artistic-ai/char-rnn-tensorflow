@@ -6,7 +6,7 @@ from aiohttp import web, ClientSession
 import jinja2
 import os
 
-from config import load_config
+from config import load_config, PROJECT_ROOT
 from server.app_tasks import start_samples_servers, terminate_samples_servers
 
 
@@ -87,7 +87,7 @@ def main():
 
     app['models'] = args.models
     app['sample_servers'] = {}
-    app['samples_server_script'] = os.path.join(SERVER_ROOT, 'samples_server.py')
+    app['samples_server_script'] = os.path.join(PROJECT_ROOT, 'run_samples_server.py')
     app['reload_text'] = config['server']['reload_text']
     app['samples_order'] = config['server']['samples_order']
 

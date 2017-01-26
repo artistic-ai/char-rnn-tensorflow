@@ -30,7 +30,7 @@
                         if ($('#sample-' + val.index).length == 0) {
                             content = "<div id='sample-" + val.index + "'><h2>" + (val.index + 1) + "</h2><div><pre>" + val.text + "</pre></div></div>";
 
-                            if ( '{{ samples_order }}' == 'descend' ) {
+                            if ( '{{ reverse_samples }}' ) {
                                 $("#samples-container").prepend(content);
                             } else {
                                 $("#samples-container").append(content);

@@ -147,7 +147,7 @@ server:
   port: 8080
   dataset: mcdonagh-ru
   model: mcdonagh-ru-3-512
-  samples_order: normal
+  reverse_samples: No
   model_urls:
     - tinyshakespeare-ru/tinyshakespeare-ru-3-512
     - pillowbook-ru/pillowbook-ru-3-512

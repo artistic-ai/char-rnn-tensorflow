@@ -21,6 +21,8 @@ def get_args(config):
     parser.add_argument('--models', metavar='N', type=str, nargs='+',
                         choices=model_urls, default=config['server']['model_urls'],
                         help='name of dataset to download [%s]' % ', '.join(model_urls))
+    parser.add_argument('--reverse_samples', default=config['server']['reverse_samples'], action='store_true',
+                        help='reverse samples order')
     parser.add_argument('--port', type=int, default=config['server']['port'],
                         help='port to bind to')
 
@@ -56,7 +58,7 @@ async def samples_page_handler(request):
     samples_server = request.app['sample_servers'][model_url]
     samples = await get_remote_samples(samples_server)
 
-    if request.app['samples_order'] == 'reversed':
+    if request.app['reverse_samples']:
         samples = reversed(samples)
 
     return {
@@ -64,7 +66,7 @@ async def samples_page_handler(request):
         'title': 'Texts generated from model %s' % model_url,
         'reload_text': request.app['reload_text'],
         'samples_url': request.app.router['samples'].url_for(dataset=dataset_name, model=model_name),
-        'samples_order': request.app['samples_order']
+        'reverse_samples': request.app['reverse_samples']
     }
 
 
@@ -89,7 +91,7 @@ def main():
     app['sample_servers'] = {}
     app['samples_server_script'] = os.path.join(PROJECT_ROOT, 'run_samples_server.py')
     app['reload_text'] = config['server']['reload_text']
-    app['samples_order'] = config['server']['samples_order']
+    app['reverse_samples'] = args.reverse_samples
 
     app.router.add_get('/', index_handler, name='index')
     app.router.add_get('/{dataset}/{model}', samples_page_handler, name='samples_page')

@@ -34,7 +34,7 @@ async def samples_handler(request):
 @aiohttp_jinja2.template('samples_index.html')
 async def index_handler(request):
     samples = request.app['text_generations']
-    if request.app['samples_order'] == 'reversed':
+    if request.app['reverse_samples']:
         samples = reversed(samples)
 
     return {
@@ -42,7 +42,7 @@ async def index_handler(request):
         'title': request.app['title'],
         'reload_text': request.app['reload_text'],
         'samples_url': request.app.router['samples'].url_for(),
-        'samples_order': request.app['samples_order']
+        'reverse_samples': request.app['reverse_samples']
     }
 
 
@@ -63,6 +63,8 @@ def get_args(config):
                         help='timeout for text reload')
     parser.add_argument('--port', type=int, default=config['server']['port'],
                         help='port to bind to')
+    parser.add_argument('--reverse_samples', default=config['server']['reverse_samples'], action='store_true',
+                        help='reverse samples order')
     parser.add_argument('--clean', default=False, action='store_true',
                         help='clean previous generations')
 
@@ -81,7 +83,7 @@ def main():
     app['model_dir'] = os.path.join(PROJECT_ROOT, config['models'][dataset_name][model_name]['path'])
     app['reload_model'] = args.reload_model
     app['reload_text'] = args.reload_text
-    app['samples_order'] = config['server']['samples_order']
+    app['reverse_samples'] = args.reverse_samples
     app['samples_path'] = os.path.join(PROJECT_ROOT, config['dirs']['samples'],
                                        '{d}_{m}.json'.format(
                                            d=dataset_name,

@@ -6,16 +6,18 @@
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
 </head>
 <body>
-<h1>{{ title }}</h1>
-<div id="samples-container">
-    {% for sample in samples %}
-        <div id="sample-{{ sample.index }}">
-            <h2>{{ sample.index + 1 }}</h2>
-            <div>
-                <pre>{{ sample.text }}</pre>
+<div class="container">
+    <h1>{{ title }}</h1>
+    <div id="samples-container">
+        {% for sample in samples %}
+            <div id="sample-{{ sample.index }}">
+                <h2>{{ sample.index + 1 }}</h2>
+                <div>
+                    <pre>{{ sample.text }}</pre>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"

@@ -6,9 +6,14 @@
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
 </head>
 <body>
-<h1>Models</h1>
-{% for page in samples_pages %}
-<h2><a href="{{ page.url }}">{{ page.title }}</a></h2>
-{% endfor %}
+<div class="models-list-container">
+    <img class="main-image" src="/static/images/flowers.png"/>
+    <div class="models-list">
+        <h1>Models</h1>
+        {% for page in samples_pages %}
+        <h3><a href="{{ page.url }}">{{ page.title }}</a></h3>
+        {% endfor %}
+    </div>
+</div>
 </body>
 </html>

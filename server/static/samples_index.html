@@ -24,19 +24,25 @@
 <script>
     $(document).ready(function() {
         setInterval(function() {
-            $.getJSON( "{{ samples_url }}", function( data ) {
-                $.each( data, function( key, val ) {
-                    if ($('#sample-' + val.index).length == 0) {
-                        content = "<div id='sample-" + val.index + "'><h2>" + (val.index + 1) + "</h2><div><pre>" + val.text + "</pre></div></div>";
+            try {
+                $.getJSON( "{{ samples_url }}", function( data ) {
+                    $.each( data, function( key, val ) {
+                        if ($('#sample-' + val.index).length == 0) {
+                            content = "<div id='sample-" + val.index + "'><h2>" + (val.index + 1) + "</h2><div><pre>" + val.text + "</pre></div></div>";
 
-                        if ( '{{ samples_order }}' == 'descend' ) {
-                            $("#samples-container").prepend(content);
-                        } else {
-                            $("#samples-container").append(content);
+                            if ( '{{ samples_order }}' == 'descend' ) {
+                                $("#samples-container").prepend(content);
+                            } else {
+                                $("#samples-container").append(content);
+                            }
+
+                            console.log('Add sample #' + (key + 1));
                         }
-                    }
+                    });
                 });
-            });
+            } catch (e) {
+                console.log(e);
+            }
         }, {{ reload_text }} * 1000 )
     })
 </script>

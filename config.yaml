@@ -193,15 +193,21 @@ server:
   reload_model: 1800
   reload_text: 600
   port: 8080
-  dataset: mcdonagh-ru
-  model: mcdonagh-ru-3-512
   reverse_samples: No
-  model_urls:
-    - tinyshakespeare-ru/tinyshakespeare-ru-3-512
-    - pillowbook-ru/pillowbook-ru-3-512
-    - brodsky-ru/brodsky-ru-3-512
-    - kafka-ru/kafka-ru-3-512
-    - aeneid-mixed-ua/aeneid-mixed-ua-3-512
-    - mcdonagh-ru/mcdonagh-ru-3-512
-    - oberiu-ru/oberiu-ru-3-512
-    - aragon-ru/aragon-ru-3-512
+  models:
+    - url: tinyshakespeare-ru/tinyshakespeare-ru-3-512
+      title: Шекспир
+    - url: pillowbook-ru/pillowbook-ru-3-512
+      title: Записки у изголовья
+    - url: brodsky-ru/brodsky-ru-3-512
+      title: Бродский
+    - url: kafka-ru/kafka-ru-3-512
+      title: Кафка
+    - url: aeneid-mixed-ua/aeneid-mixed-ua-3-512
+      title: Энеиды Вергилия и Котляревского
+    - url: mcdonagh-ru/mcdonagh-ru-3-512
+      title: Макдоннах
+    - url: oberiu-ru/oberiu-ru-3-512
+      title: ОБЭРИУ
+    - url: aragon-ru/aragon-ru-3-512
+      title: Арагон

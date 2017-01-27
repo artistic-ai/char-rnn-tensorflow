@@ -15,11 +15,11 @@ STATIC_ROOT = os.path.join(SERVER_ROOT, 'static')
 
 
 def get_args(config):
-    model_urls = config['model_urls']
+    model_urls = [m['url'] for m in config['server']['models']]
 
     parser = argparse.ArgumentParser(description='Manage and serve multiple samples.')
     parser.add_argument('--models', metavar='N', type=str, nargs='+',
-                        choices=model_urls, default=config['server']['model_urls'],
+                        choices=model_urls, default=model_urls,
                         help='name of dataset to download [%s]' % ', '.join(model_urls))
     parser.add_argument('--reverse_samples', default=config['server']['reverse_samples'], action='store_true',
                         help='reverse samples order')
@@ -32,11 +32,11 @@ def get_args(config):
 @aiohttp_jinja2.template('app_index.html')
 async def index_handler(request):
     samples_pages = []
-    for model_url in request.app['models']:
-        dataset_name, model_name = model_url.split('/')
+    for model in request.app['models']:
+        dataset_name, model_name = model['url'].split('/')
         url = request.app.router['samples_page'].url_for(dataset=dataset_name, model=model_name)
         samples_pages.append({
-            'title': model_url,
+            'title': model['title'],
             'url': url
         })
     return {'samples_pages': samples_pages}
@@ -87,7 +87,7 @@ def main():
 
     app = web.Application()
 
-    app['models'] = args.models
+    app['models'] = [m for m in config['server']['models'] if m['url'] in args.models]
     app['sample_servers'] = {}
     app['samples_server_script'] = os.path.join(PROJECT_ROOT, 'run_samples_server.py')
     app['reload_text'] = config['server']['reload_text']

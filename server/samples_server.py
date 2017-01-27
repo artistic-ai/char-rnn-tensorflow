@@ -52,10 +52,10 @@ def get_args(config):
 
     parser = argparse.ArgumentParser(description='Generate and serve samples for selected model.')
     parser.add_argument('--dataset', type=str,
-                        choices=dataset_names, default=config['server']['dataset'],
+                        choices=dataset_names, required=True,
                         help='name of dataset to use [%s]' % ', '.join(dataset_names))
     parser.add_argument('--model', type=str,
-                        choices=model_names, default=config['server']['model'],
+                        choices=model_names, required=True,
                         help='name of model to sample [%s]' % ', '.join(model_names))
     parser.add_argument('--reload_model', type=int, default=config['server']['reload_model'],
                         help='timeout for model reload')

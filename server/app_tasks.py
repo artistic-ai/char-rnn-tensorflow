@@ -6,7 +6,8 @@ from server.server_utils import get_free_tcp_port
 
 
 def start_samples_servers(app):
-    for model_url in app['models']:
+    for model in app['models']:
+        model_url = model['url']
         dataset_name, model_name = model_url.split('/')
         port = get_free_tcp_port()
         p = subprocess.Popen([sys.executable,

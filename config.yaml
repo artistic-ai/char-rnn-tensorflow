@@ -159,6 +159,9 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 500
+        source:
+          type: zipfile
+          url: https://dl.dropboxusercontent.com/s/opvs1n4x5qr322f/oberiu-ru-3-512.zip
 
   - name: vvedensky-ru
     sources:

@@ -160,6 +160,24 @@ datasets:
           num_epochs: 150
           save_every: 500
 
+  - name: vvedensky-ru
+    sources:
+      - type: zipfile
+        url: https://dl.dropboxusercontent.com/s/vbdxfcyhvih42jv/vvedensky-ru.zip
+    models:
+      - name: vvedensky-ru-2-128
+        params:
+          rnn_size: 128
+          num_layers: 2
+          num_epochs: 2500
+          save_every: 500
+      - name: vvedensky-ru-3-512
+        params:
+          rnn_size: 512
+          num_layers: 3
+          num_epochs: 2500
+          save_every: 500
+
 dirs:
   data: ./data
   models: ./save

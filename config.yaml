@@ -49,7 +49,7 @@ datasets:
         params:
           rnn_size: 512
           num_layers: 3
-          num_epochs: 150
+          num_epochs: 250
           save_every: 500
         source:
           type: zipfile

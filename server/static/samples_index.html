@@ -11,7 +11,8 @@
     <div id="samples-container">
         {% for sample in samples %}
             <div id="sample-{{ sample.index }}">
-                <h2>{{ sample.index + 1 }}</h2>
+                <a id="{{ sample.index + 1 }}"></a>
+                <h2><a href="#{{ sample.index + 1 }}">{{ sample.index + 1 }}</a></h2>
                 <div>
                     <pre>{{ sample.text }}</pre>
                 </div>
@@ -30,7 +31,10 @@
                 $.getJSON( "{{ samples_url }}", function( data ) {
                     $.each( data, function( key, val ) {
                         if ($('#sample-' + val.index).length == 0) {
-                            content = "<div id='sample-" + val.index + "'><h2>" + (val.index + 1) + "</h2><div><pre>" + val.text + "</pre></div></div>";
+                            var anchor = "<a id='" + (val.index + 1) + "'></a>";
+                            var header = "<h2><a href='#" + (val.index + 1) + "'>" + (val.index + 1) + "</a></h2>";
+                            var sample = "<div><pre>" + val.text + "</pre></div>"
+                            var content = "<div id='sample-" + val.index + "'>" + anchor + header + sample + "</div>";
 
                             if ( '{{ reverse_samples }}' ) {
                                 $("#samples-container").prepend(content);

@@ -147,6 +147,9 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 500
+        source:
+          type: zipfile
+          url: https://dl.dropboxusercontent.com/s/n5qnljtzovw8sg7/aragon-ru-3-512.zip
 
   - name: oberiu-ru
     sources:

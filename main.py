@@ -105,10 +105,12 @@ def get_sample(dataset, model):
 def __get_dataset_and_model(args, dataset_name):
     dataset = [d for d in CONFIG['datasets'] if d['name'] == dataset_name][0]
     if args.model:
-        model = [m for m in dataset['models']]
-        if len(model) != 1:
-            print('Model "%s" is not specified for dataset "%s"' % (model['name'], dataset['name']))
+        models = [m for m in dataset['models'] if m['name'] == args.model]
+        if len(models) != 1:
+            print('Model "%s" is not specified for dataset "%s"' % (args.model, dataset['name']))
             exit(-1)
+        else:
+            model = models[0]
     else:
         model = dataset.get('models', [{'name': dataset_name}])[0]
 

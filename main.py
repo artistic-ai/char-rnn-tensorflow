@@ -11,14 +11,10 @@ from six.moves import urllib
 from config import load_config
 from sample import sample
 from train import train
+from utils import prepare_dir
 
 
 CONFIG = load_config()
-
-
-def prepare_dir(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
 
 
 def download_from_url(url, dest):

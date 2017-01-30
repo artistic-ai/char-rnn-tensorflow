@@ -12,6 +12,13 @@ def load_config():
         )
 
 
+def get_absolute_path(path, prefix=PROJECT_ROOT):
+    if (path.startswith('/')):
+        return path
+    else:
+        return os.path.join(prefix, path)
+
+
 def __dataset_path(dataset, config):
     return os.path.join(config['dirs']['data'], dataset['name'])
 

@@ -5,6 +5,11 @@ from six.moves import cPickle
 import numpy as np
 
 
+def prepare_dir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
 class StructFromArgs:
     def __init__(self, **entries):
         self.__dict__.update(entries)

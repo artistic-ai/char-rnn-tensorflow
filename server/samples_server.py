@@ -84,7 +84,7 @@ def main():
     app['reload_model'] = args.reload_model
     app['reload_text'] = args.reload_text
     app['reverse_samples'] = args.reverse_samples
-    app['samples_path'] = os.path.join(PROJECT_ROOT, config['dirs']['samples'],
+    app['samples_path'] = os.path.join(PROJECT_ROOT, config['server']['dirs']['samples'],
                                        '{d}_{m}.json'.format(
                                            d=dataset_name,
                                            m=model_name)

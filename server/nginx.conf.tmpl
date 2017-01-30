@@ -1,0 +1,31 @@
+error_log  {{ logdir }}/error.log;
+pid        {{ logdir }}/nginx.pid;
+worker_rlimit_nofile 8192;
+daemon off;
+
+http {
+  proxy_cache_path  {{ cachedir }}  levels=1:2    keys_zone=STATIC:10m
+  inactive={{ cache_time }}  max_size={{ cache_size }};
+
+  log_format   main '$remote_addr - $remote_user [$time_local]  $status '
+      '"$request" $body_bytes_sent "$http_referer" '
+      '"$http_user_agent" "$http_x_forwarded_for"';
+  access_log   {{ logdir }}/access.log  main;
+
+  server {
+    listen       {{ port }};
+    access_log   {{ logdir }}/app.access.log  main;
+
+    location / {
+      proxy_pass             "{{ upstream }}";
+      proxy_set_header       Host $host;
+      proxy_cache            STATIC;
+      proxy_cache_valid      200  {{ cache_time }};
+      proxy_cache_use_stale  error timeout invalid_header updating
+      http_500 http_502 http_503 http_504;
+    }
+  }
+}
+
+events {
+}

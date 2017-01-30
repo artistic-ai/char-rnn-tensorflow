@@ -89,7 +89,7 @@ def main():
 
     app['models'] = [m for m in config['server']['models'] if m['url'] in args.models]
     app['sample_servers'] = {}
-    app['samples_server_script'] = os.path.join(PROJECT_ROOT, 'run_samples_server.py')
+    app['samples_server_script'] = os.path.join(PROJECT_ROOT, 'run.py')
     app['reload_text'] = config['server']['reload_text']
     app['reverse_samples'] = args.reverse_samples
 

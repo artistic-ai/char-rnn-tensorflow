@@ -188,9 +188,8 @@ datasets:
           save_every: 500
 
 dirs:
-  data: ./data
-  models: ./save
-  samples: ./server/data
+  data: data
+  models: save
 
 server:
   reload_model: 1800
@@ -214,3 +213,17 @@ server:
       title: ОБЭРИУ
     - url: aragon-ru/aragon-ru-3-512
       title: Арагон
+  nginx:
+    port: 80
+    cache:
+      time: 1m
+      size: 1g
+    upstream:
+      host: http://0.0.0.0
+      port: 8080
+    config_template: server/nginx.conf.tmpl
+    config_file: server/nginx.conf
+  dirs:
+    samples: server/data
+    logs: server/logs
+    cache: server/cache

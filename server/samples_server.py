@@ -4,12 +4,12 @@ import argparse
 import aiohttp_jinja2
 from aiohttp import web
 import jinja2
-import json
 import os
 
 from config import load_config, get_absolute_path
 from server.web_utils import setup_logging
-from server.samples_tasks import start_background_tasks, cleanup_background_tasks
+import server.samples_tasks as samples_tasks
+import server.db as db
 
 
 SERVER_ROOT = os.path.dirname(__file__)
@@ -17,7 +17,7 @@ STATIC_ROOT = os.path.join(SERVER_ROOT, 'static')
 
 
 async def samples_handler(request):
-    generations = request.app['text_generations']
+    generations = await db.get_samples(request.app)
     sample_index = request.match_info.get('index')
 
     # Respond with all generations if index omitted
@@ -34,7 +34,7 @@ async def samples_handler(request):
 
 @aiohttp_jinja2.template('samples_index.html')
 async def index_handler(request):
-    samples = request.app['text_generations']
+    samples = await db.get_samples(request.app)
     if request.app['reverse_samples']:
         samples = reversed(samples)
 
@@ -86,18 +86,7 @@ def main():
     app['reload_model'] = args.reload_model
     app['reload_text'] = args.reload_text
     app['reverse_samples'] = args.reverse_samples
-    app['samples_path'] = get_absolute_path(config['server']['dirs']['samples'],
-                                            '{d}_{m}.json'.format(
-                                                d=dataset_name,
-                                                m=model_name)
-                                            )
-
-    # Load previous generations if not clean run requested
-    if os.path.exists(app['samples_path']) and not args.clean:
-        with open(app['samples_path'], 'r') as infile:
-            app['text_generations'] = json.load(infile)
-    else:
-        app['text_generations'] = []
+    app['redis'] = config['server']['redis'].copy()
 
     app.router.add_get('/', index_handler, name='index')
     app.router.add_get('/samples', samples_handler, name='samples')
@@ -107,8 +96,10 @@ def main():
                           name='static')
 
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(STATIC_ROOT))
-    app.on_startup.append(start_background_tasks)
-    app.on_cleanup.append(cleanup_background_tasks)
+    app.on_startup.append(db.connect_to_redis)
+    app.on_startup.append(samples_tasks.start_background_tasks)
+    app.on_cleanup.append(samples_tasks.cleanup_background_tasks)
+    app.on_cleanup.append(db.close_redis)
 
     web.run_app(app, port=args.port)
 

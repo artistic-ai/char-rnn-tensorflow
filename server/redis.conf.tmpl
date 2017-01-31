@@ -1,0 +1,15 @@
+port {{ port }}
+
+tcp-backlog 511
+tcp-keepalive 300
+
+supervised no
+
+save 900 1
+save 300 10
+save 60 10000
+
+dbfilename {{ db_file }}
+dir {{ db_dir }}
+
+logfile "{{ logfile }}"

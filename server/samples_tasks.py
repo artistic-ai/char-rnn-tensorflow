@@ -1,22 +1,25 @@
 import asyncio
-import json
 
 from sample import load_model, restore_session, get_sample
+from server.db import add_sample
 
 
 def close_session(app):
     if app.get('tf_session', None):
+        app.logger.info('Closing TensorFlow session')
         app['tf_session'].close()
         app['tf_session'] = None
 
 
 def reload_session(app):
     close_session(app)
+    app.logger.info('Starting TensorFlow session')
     app['tf_session'] = restore_session(app['model_dir'])
 
 
 def get_sample_text(app):
     if app.get('model', None) and app.get('tf_session', None):
+        app.logger.info('Creating text sample')
         return get_sample(app['model'], app['tf_session'])
 
 
@@ -36,15 +39,8 @@ async def model_updater(app):
 async def text_generator(app):
     try:
         while True:
-            new_item = {
-                'text': get_sample_text(app),
-                'index': len(app['text_generations'])
-            }
-            # Add new item
-            app['text_generations'].append(new_item)
-            # Save to generations file
-            with open(app['samples_path'], 'w') as outfile:
-                json.dump(app['text_generations'], outfile)
+            # Generate text sample and save it to redis
+            await add_sample(get_sample_text(app), app)
             # Wait for next run
             await asyncio.sleep(app['reload_text'])
     except asyncio.CancelledError:

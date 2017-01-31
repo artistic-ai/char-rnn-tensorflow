@@ -269,3 +269,18 @@ server:
         level: INFO
         handlers: [console]
         propagate: no
+  redis:
+    host: localhost
+    port: 6379
+    db: 0
+    generations_key: samples
+
+redis:
+  dirs:
+    logs: server/logs
+    db: server/data
+  port: 6379
+  db_file: dump.rdb
+  logfile: redis.log
+  config_template: server/redis.conf.tmpl
+  config_file: server/redis.conf

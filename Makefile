@@ -14,6 +14,9 @@ download-datasets:
 nginx:
 	@nginx -c $(PROJECT_DIR)/server/nginx.conf
 
+redis:
+	@redis-server $(PROJECT_DIR)/server/redis.conf
+
 app:
 	@./run.py app --reverse_samples
 

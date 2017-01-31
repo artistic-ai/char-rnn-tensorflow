@@ -6,7 +6,8 @@ from aiohttp import web, ClientSession
 import jinja2
 import os
 
-from config import load_config, PROJECT_ROOT
+from config import load_config, get_absolute_path
+from server.web_utils import setup_logging
 from server.app_tasks import start_samples_servers, terminate_samples_servers
 
 
@@ -83,13 +84,14 @@ async def samples_handler(request):
 
 def main():
     config = load_config()
+    setup_logging(config, module='app')
     args = get_args(config)
 
     app = web.Application()
 
     app['models'] = [m for m in config['server']['models'] if m['url'] in args.models]
     app['sample_servers'] = {}
-    app['samples_server_script'] = os.path.join(PROJECT_ROOT, 'run.py')
+    app['samples_server_script'] = get_absolute_path('run.py')
     app['reload_text'] = config['server']['reload_text']
     app['reverse_samples'] = args.reverse_samples
 

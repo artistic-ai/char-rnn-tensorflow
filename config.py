@@ -12,11 +12,11 @@ def load_config():
         )
 
 
-def get_absolute_path(path, prefix=PROJECT_ROOT):
-    if (path.startswith('/')):
-        return path
+def get_absolute_path(*paths, prefix=PROJECT_ROOT):
+    if paths[0].startswith('/'):
+        return os.path.join(*paths)
     else:
-        return os.path.join(prefix, path)
+        return os.path.join(prefix, *paths)
 
 
 def __dataset_path(dataset, config):

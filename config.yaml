@@ -227,3 +227,45 @@ server:
     samples: server/data
     logs: server/logs
     cache: server/cache
+  logging:
+    version: 1
+    handlers:
+      console:
+        class: logging.StreamHandler
+        level: DEBUG
+        stream: ext://sys.stdout
+      access_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: INFO
+        filename: access.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+      error_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: ERROR
+        filename: errors.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+    loggers:
+      aiohttp:
+        level: INFO
+        handlers: [console]
+        propagate: no
+      aiohttp.server:
+        level: ERROR
+        handlers: [console, error_file_handler]
+        propagate: no
+      aiohttp.access:
+        level: INFO
+        handlers: [console, access_file_handler]
+        propagate: no
+      exceptions:
+        level: ERROR
+        handlers: [error_file_handler]
+        propagate: no
+      root:
+        level: INFO
+        handlers: [console]
+        propagate: no

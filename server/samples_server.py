@@ -7,7 +7,8 @@ import jinja2
 import json
 import os
 
-from config import load_config, PROJECT_ROOT
+from config import load_config, get_absolute_path
+from server.web_utils import setup_logging
 from server.samples_tasks import start_background_tasks, cleanup_background_tasks
 
 
@@ -74,21 +75,22 @@ def get_args(config):
 def main():
     config = load_config()
     args = get_args(config)
+    setup_logging(config, module='samples_server')
 
     dataset_name = args.dataset
     model_name = args.model
 
     app = web.Application()
     app['title'] = 'Texts generated from model %s/%s' % (dataset_name, model_name)
-    app['model_dir'] = os.path.join(PROJECT_ROOT, config['models'][dataset_name][model_name]['path'])
+    app['model_dir'] = get_absolute_path(config['models'][dataset_name][model_name]['path'])
     app['reload_model'] = args.reload_model
     app['reload_text'] = args.reload_text
     app['reverse_samples'] = args.reverse_samples
-    app['samples_path'] = os.path.join(PROJECT_ROOT, config['server']['dirs']['samples'],
-                                       '{d}_{m}.json'.format(
-                                           d=dataset_name,
-                                           m=model_name)
-                                       )
+    app['samples_path'] = get_absolute_path(config['server']['dirs']['samples'],
+                                            '{d}_{m}.json'.format(
+                                                d=dataset_name,
+                                                m=model_name)
+                                            )
 
     # Load previous generations if not clean run requested
     if os.path.exists(app['samples_path']) and not args.clean:

@@ -19,7 +19,7 @@ def reload_session(app):
 
 def get_sample_text(app):
     if app.get('model', None) and app.get('tf_session', None):
-        app.logger.info('Creating text sample')
+        app.logger.info('Creating text sample for %s' % app['model_url'])
         return get_sample(app['model'], app['tf_session'])
 
 

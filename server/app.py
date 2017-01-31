@@ -2,13 +2,14 @@
 
 import argparse
 import aiohttp_jinja2
-from aiohttp import web, ClientSession
+from aiohttp import web
 import jinja2
 import os
 
 from config import load_config, get_absolute_path
 from server.web_utils import setup_logging
-from server.app_tasks import start_samples_servers, terminate_samples_servers
+from server.app_tasks import start_samples_servers, terminate_samples_servers, get_remote_samples
+import server.db as db
 
 
 SERVER_ROOT = os.path.dirname(__file__)
@@ -43,21 +44,13 @@ async def index_handler(request):
     return {'samples_pages': samples_pages}
 
 
-async def get_remote_samples(sample_server):
-    port = sample_server['port']
-    async with ClientSession() as session:
-        async with session.get('http://0.0.0.0:%s/samples' % port) as resp:
-            return await resp.json()
-
-
 @aiohttp_jinja2.template('samples_index.html')
 async def samples_page_handler(request):
     dataset_name =request.match_info['dataset']
     model_name =request.match_info['model']
     model_url = '%s/%s' % (dataset_name, model_name)
 
-    samples_server = request.app['sample_servers'][model_url]
-    samples = await get_remote_samples(samples_server)
+    samples = await get_remote_samples(request.app, model_url)
 
     if request.app['reverse_samples']:
         samples = reversed(samples)
@@ -76,8 +69,7 @@ async def samples_handler(request):
     model_name =request.match_info['model']
     model_url = '%s/%s' % (dataset_name, model_name)
 
-    samples_server = request.app['sample_servers'][model_url]
-    samples = await get_remote_samples(samples_server)
+    samples = await get_remote_samples(request.app, model_url)
 
     return web.json_response(samples)
 
@@ -94,6 +86,8 @@ def main():
     app['samples_server_script'] = get_absolute_path('run.py')
     app['reload_text'] = config['server']['reload_text']
     app['reverse_samples'] = args.reverse_samples
+    app['redis'] = config['server']['redis'].copy()
+    app['retrieve_method'] = config['server']['retrieve_method']
 
     app.router.add_get('/', index_handler, name='index')
     app.router.add_get('/{dataset}/{model}', samples_page_handler, name='samples_page')
@@ -103,8 +97,11 @@ def main():
                           name='static')
 
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(STATIC_ROOT))
+
+    app.on_startup.append(db.connect_to_redis)
     app.on_startup.append(start_samples_servers)
     app.on_cleanup.append(terminate_samples_servers)
+    app.on_cleanup.append(db.close_redis)
 
     web.run_app(app, port=args.port)
 

@@ -196,6 +196,7 @@ server:
   reload_text: 600
   port: 8080
   reverse_samples: No
+  retrieve_method: redis
   models:
     - url: tinyshakespeare-ru/tinyshakespeare-ru-3-512
       title: Шекспир
@@ -273,7 +274,7 @@ server:
     host: localhost
     port: 6379
     db: 0
-    generations_key: samples
+    generations_key: '{model_url}_samples'
 
 redis:
   dirs:

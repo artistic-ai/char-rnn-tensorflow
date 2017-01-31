@@ -79,14 +79,17 @@ def main():
 
     dataset_name = args.dataset
     model_name = args.model
+    model_url = '%s/%s' % (dataset_name, model_name)
 
     app = web.Application()
-    app['title'] = 'Texts generated from model %s/%s' % (dataset_name, model_name)
+    app['title'] = 'Texts generated from model %s' % model_url
+    app['model_url'] = model_url
     app['model_dir'] = get_absolute_path(config['models'][dataset_name][model_name]['path'])
     app['reload_model'] = args.reload_model
     app['reload_text'] = args.reload_text
     app['reverse_samples'] = args.reverse_samples
     app['redis'] = config['server']['redis'].copy()
+    app['redis']['generations_key'] = app['redis']['generations_key'].format(model_url=model_url)
 
     app.router.add_get('/', index_handler, name='index')
     app.router.add_get('/samples', samples_handler, name='samples')
@@ -96,6 +99,7 @@ def main():
                           name='static')
 
     aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(STATIC_ROOT))
+
     app.on_startup.append(db.connect_to_redis)
     app.on_startup.append(samples_tasks.start_background_tasks)
     app.on_cleanup.append(samples_tasks.cleanup_background_tasks)

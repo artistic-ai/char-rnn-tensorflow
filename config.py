@@ -12,7 +12,8 @@ def load_config():
         )
 
 
-def get_absolute_path(*paths, prefix=PROJECT_ROOT):
+def get_absolute_path(*paths, **kwargs):
+    prefix = kwargs.pop('prefix', PROJECT_ROOT)
     if paths[0].startswith('/'):
         return os.path.join(*paths)
     else:

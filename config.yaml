@@ -12,18 +12,12 @@ datasets:
           num_layers: 3
           num_epochs: 1500
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/3t7wmfk3x02s2qp/pillowbook-ru-3-512.zip
       - name: pillowbook-ru-3-256
         params:
           rnn_size: 256
           num_layers: 3
           num_epochs: 500
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/4rz8kblztlv0zbv/pillowbook-ru-model-3-256.zip
 
   - name: klim-ru
     sources:
@@ -36,9 +30,6 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 200
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/w0mwjhvsr8bnk67/klim-ru-model-3-512.zip
 
   - name: mcdonagh-ru
     sources:
@@ -51,18 +42,12 @@ datasets:
           num_layers: 3
           num_epochs: 300
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/m0r37ybsiljmo52/mcdonagh-ru-3-512.zip
       - name: mcdonagh-ru-3-512-old
         params:
           rnn_size: 512
           num_layers: 3
           num_epochs: 150
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/ismytgln850j6hk/mcdonagh-ru-3-512-old.zip
 
   - name: brodsky-ru
     sources:
@@ -75,9 +60,6 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/nww0bam5ng4y7zr/brodsky-ru-3-512.zip
 
   - name: kafka-ru
     sources:
@@ -90,9 +72,6 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/xb1oj76ppa0pmhp/kafka-ru-3-512.zip
 
   - name: tinyshakespeare-ru
     sources:
@@ -105,9 +84,6 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/wj271c0l26v36a6/tinyshakespeare-ru-3-256.zip
 
   - name: constitution-ukraine-ua
     sources:
@@ -127,9 +103,6 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/928gfxb4mzvgks7/aeneid-mixed-ua-3-512.zip
 
   - name: tax-codex-ukraine-ua
     sources:
@@ -147,9 +120,6 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/n5qnljtzovw8sg7/aragon-ru-3-512.zip
 
   - name: oberiu-ru
     sources:
@@ -162,9 +132,6 @@ datasets:
           num_layers: 3
           num_epochs: 150
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/opvs1n4x5qr322f/oberiu-ru-3-512.zip
 
   - name: vvedensky-ru
     sources:
@@ -177,9 +144,6 @@ datasets:
           num_layers: 3
           num_epochs: 2500
           save_every: 500
-        source:
-          type: zipfile
-          url: https://dl.dropboxusercontent.com/s/19rbsg1q96ncv5h/vvedensky-ru-3-512.zip
       - name: vvedensky-ru-2-128
         params:
           rnn_size: 128

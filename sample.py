@@ -37,7 +37,7 @@ def load_model(save_dir='save'):
 
 def restore_session(save_dir='save'):
     sess = tf.Session()
-    tf.global_variables_initializer().run()
+    tf.global_variables_initializer().run(session=sess)
     saver = tf.train.Saver(tf.global_variables())
     ckpt = tf.train.get_checkpoint_state(save_dir)
     if ckpt and ckpt.model_checkpoint_path:
